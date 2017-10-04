@@ -3,17 +3,22 @@
 
 <head>
   <meta charset="utf-8">
-  <title>The Magical Cat Button</title>
+  <title>Coffee Gifs Because I </title>
 </head>
 
 <body>
+  <form>
+      <span id="add-animal-button">Add button: <input id="new-animal-button" type="text" ><input id="add-to-animal-button" value="Add Item" type="submit"></span>
+    </form>
 <div id="coffee-buttons"></div>
-  <button id="cat-button">magical cat button</button>
+
   <div id="images">
   </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
   var buttonArray = ["frappe", "caffe-mocha", "macchiato"]
+  var coffeeName = $(this).attr("giphy-to-search")
     
 
   for(var i=0; i<buttonArray.length;i++){
@@ -28,42 +33,33 @@
 
 
     buttonList.on("click", function(){
-      alert("This coffee is " + $(this).attr("giphy-to-search"));
-    
-  
+      // alert("This coffee is " + $(this).attr("giphy-to-search"));
+      var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + coffeeName;
 
-  });
+         $.ajax({
+            url: queryURL,
+            method: "GET"
+          })
 
-}    
-    
-    $("#cat-button").on("click", function() {
+          
+          .done(function(response) {
 
+            
+            var imageUrl = response.data.image_original_url;
 
-      var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cats";
+            
+            var coffeeImage = $("<img>");
 
-      
-      $.ajax({
-        url: queryURL,
-        method: "GET"
-      })
+            
+            coffeeImage.attr("src", imageUrl);
+            coffeeImage.attr("alt", "cat image");
 
-      
-      .done(function(response) {
+            
+            $("#images").prepend(coffeeImage);
+          });
+        }); 
 
-        
-        var imageUrl = response.data.image_original_url;
-
-        
-        var catImage = $("<img>");
-
-        
-        catImage.attr("src", imageUrl);
-        catImage.attr("alt", "cat image");
-
-        
-        $("#images").prepend(catImage);
-      });
-    });
+  };
   </script>
 </body>
 
